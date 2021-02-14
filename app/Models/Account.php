@@ -22,6 +22,11 @@ class Account extends Model
     	return $this->belongsTo(Service::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function safeInsert($key, $data)
     {
         $secretKey = md5($key);
