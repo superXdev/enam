@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Account;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('welcome');
+});
+
+Route::get('tes', function(Account $account){
+	$acc = $account->find(2);
+
+	$dec = $acc->showData('123', $acc);
+
+	return dd($dec);
 });
