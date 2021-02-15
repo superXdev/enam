@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::view('/dashboard', 'dashboard.index');
+
 Route::get('tes', function(Account $account){
 	$acc = $account->find(2);
 
