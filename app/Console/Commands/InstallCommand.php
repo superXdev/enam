@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\{Service, User, Account};
+use App\Models\{Service, User, Account, Tag};
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -45,6 +45,7 @@ class InstallCommand extends Command
         $this->info('Create admin user');
         $this->createAdminUser();
         $this->info('Create account sample');
+        $this->createTags();
         $this->createAccountSample();
         $this->line('Done!');
     }
@@ -57,8 +58,28 @@ class InstallCommand extends Command
                 'url' => 'https://web.facebook.com/'
             ],
             [
-                'name' => 'Gmail',
-                'url' => 'https://gmail.com/'
+                'name' => 'Google',
+                'url' => 'https://www.google.com/accounts?hl=id'
+            ],
+            [
+                'name' => 'Github',
+                'url' => 'https://github.com/'
+            ],
+            [
+                'name' => 'Dropbox',
+                'url' => 'https://www.dropbox.com/'
+            ],
+            [
+                'name' => 'Dribbble',
+                'url' => 'https://dribbble.com/'
+            ],
+            [
+                'name' => 'Instagram',
+                'url' => 'https://www.instagram.com/'
+            ],
+            [
+                'name' => 'Linkedin',
+                'url' => 'https://id.linkedin.com/'
             ]
         ];
 
@@ -78,8 +99,20 @@ class InstallCommand extends Command
         User::create($user);
     }
 
+    public function createTags()
+    {
+        $data = [
+            ['name' => 'Socmed', 'slug' => 'socmed'],
+            ['name' => 'Dev', 'slug' => 'dev'],
+            ['name' => 'Blog', 'slug' => 'blog'],
+        ];
+
+        Tag::insert($data);
+    }
+
     public function createAccountSample()
     {
+        $account = new Account();
         $data = [
             'user_id' => 1,
             'service_id' => 1,
@@ -87,6 +120,8 @@ class InstallCommand extends Command
             'note' => 'Ini adalah contoh.'
         ];
 
-        Account::create($data);
+        $user = $account->safeInsert('123', $data);
+        $user->tags()->attach(1);
+        $user->tags()->attach(2);
     }
 }
