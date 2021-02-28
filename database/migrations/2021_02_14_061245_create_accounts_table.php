@@ -19,6 +19,7 @@ class CreateAccountsTable extends Migration
             $table->foreignId('service_id');
             $table->text('data', 1000);
             $table->text('note', 400);
+            $table->string('status');
             $table->timestamps();
         });
     }

@@ -11,28 +11,27 @@
         </p>
       </a>
       <ul class="nav nav-treeview">
-        <li class="nav-item">
-          <a href="/index.html" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Dashboard v1</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/index2.html" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Dashboard v2</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/index3.html" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
-            <p>Dashboard v3</p>
-          </a>
-        </li>
-      </ul>
+          <li class="nav-item">
+            <a href="{{ route('dashboard.account.add') }}" class="nav-link{{ (request()->routeIs('dashboard.account.add')) ? ' active' : '' }}">
+              <p>Tambahkan akun</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('dashboard') }}" class="nav-link{{ (request()->routeIs('dashboard')) ? ' active' : '' }}">
+              <p>Semua</p>
+            </a>
+          </li>
+          @foreach(\App\Http\Controllers\Controller::getServices() as $result)
+          <li class="nav-item">
+            <a href="{{ route('dashboard.account', strtolower($result->name)) }}" class="nav-link">
+              <p>{{ $result->name }}</p>
+            </a>
+          </li>
+          @endforeach
+        </ul>
     </li>
     <li class="nav-item">
-      <a href="../widgets.html" class="nav-link">
+      <a href="{{ route('dashboard.logs') }}" class="nav-link{{ (request()->routeIs('dashboard.logs')) ? ' active' : '' }}">
         <i class="nav-icon fas fa-clock"></i>
         <p>
           Logs
@@ -47,7 +46,7 @@
         </p>
       </a>
     </li>
-    <form action="{{ route('logout') }}" method="post" id="logout">
+    <form action="{{ route('logout.custom') }}" method="post" id="logout">
       @csrf
     </form>
   </ul>

@@ -10,7 +10,7 @@ class Account extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'service_id', 'data', 'note'];
+    protected $fillable = ['user_id', 'service_id', 'data', 'note', 'status'];
 
     public function user()
     {
@@ -27,19 +27,15 @@ class Account extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function safeInsert($key, $data)
+    public function showData($key)
     {
         $secretKey = md5($key);
         $newEncrypter = new Encrypter($secretKey,'AES-256-CBC');
+        $result =  unserialize($newEncrypter->decrypt($this->data));
 
-        $data['data'] = $newEncrypter->encrypt($data['data']);
-        return $this->create($data);
-    }
-
-    public function showData($key, $data)
-    {
-        $secretKey = md5($key);
-        $newEncrypter = new Encrypter($secretKey,'AES-256-CBC');
-        return $newEncrypter->decrypt($data['data']);
+        return [
+            'username' => $result['username'],
+            'password' => $result['password']
+        ];
     }    
 }

@@ -15,4 +15,9 @@ class Service extends Model
     {
     	return $this->hasMany(Account::class);
     }
+
+    public function getRouteKeyName()
+	{
+	    return strtolower('name');
+	}
 }

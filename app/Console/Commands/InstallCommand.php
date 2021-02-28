@@ -46,7 +46,7 @@ class InstallCommand extends Command
         $this->createAdminUser();
         $this->info('Create account sample');
         $this->createTags();
-        $this->createAccountSample();
+        // $this->createAccountSample();
         $this->line('Done!');
     }
 
@@ -117,7 +117,8 @@ class InstallCommand extends Command
             'user_id' => 1,
             'service_id' => 1,
             'data' => serialize(['username' => 'guest', 'password' => '123abc']),
-            'note' => 'Ini adalah contoh.'
+            'note' => 'Ini adalah contoh.',
+            'status' => 'active'
         ];
 
         $user = $account->safeInsert('123', $data);
