@@ -28,6 +28,8 @@
 									<span class="badge badge-primary badge-sm ">update</span>
 									@elseif($log->action == 'delete')
 									<span class="badge badge-danger badge-sm ">delete</span>
+									@elseif($log->action == 'export')
+									<span class="badge badge-warning badge-sm ">export</span>
 									@else
 									<span class="badge badge-secondary badge-sm ">{{ $log->action }}</span>
 									@endif

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\{Account, Service};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Exports\AccountExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AccountController extends Controller
 {
@@ -12,6 +14,7 @@ class AccountController extends Controller
 	{
 		$service = Service::where('name', ucfirst($service))->first();
 		$accounts = auth()->user()->accounts()->where('service_id', $service->id)->get();
+        dd($accounts);
 
 		// dd($accounts);
 		return view('dashboard.account.index', compact('accounts', 'service'));
@@ -39,7 +42,7 @@ class AccountController extends Controller
     		'status' => 'active'
     	]);
 
-    	foreach ($request->tags as $key => $value) {
+    	foreach ($request->tags as $value) {
     		$accountCreated->tags()->attach($value);
     	}
 
@@ -82,7 +85,7 @@ class AccountController extends Controller
         return redirect()->back()->with(['deleted' => 'Berhasil di hapus']);
     }
 
-    public function toggleStatus(Account $account)
+    public function toggle_status(Account $account)
     {
         $status = ($account->status == 'active') ? 'inactive' : 'active';
 
@@ -92,5 +95,29 @@ class AccountController extends Controller
         $this->logger(($account->status == 'active') ? 'activated' : 'deactivated', $account->service->name);
 
         return redirect()->back()->with(['message' => 'Status telah diperbarui']);
+    }
+
+    public function export_account($service_id)
+    {
+        $accounts = auth()->user()->accounts()->where('service_id', $service_id)->get();
+        $serviceName = $accounts[0]->service->name;
+        
+        $data = array(['username', 'password', 'note', 'create date']);
+        foreach($accounts as $account) {
+            $credentials = (object)$account->showData(Cache::get('secretkey'));
+            array_push($data, [
+                'username' => $credentials->username,
+                'password' => $credentials->password,
+                'note' => $account->note,
+                'created_at' => $account->created_at,
+            ]);
+        }
+
+        $export = new AccountExport($data);
+
+        // logging action
+        $this->logger('export', $serviceName);
+
+        return Excel::download($export, 'Akun '.$serviceName.'.xlsx');
     }
 }

@@ -20,7 +20,7 @@
 						<div class="col-lg-3 col-6">
 				            <div class="small-box bg-white">
 				              <div class="inner h4 pt-4">
-				                <h3>{{ $result->name }}</h3>
+				                <span style="font-size: 1.2rem;font-weight: bold;">{{ $result->name }}</span>
 
 				                <p></p>
 				              </div>
