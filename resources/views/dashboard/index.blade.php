@@ -8,11 +8,14 @@
 			<div class="card">
 				<div class="card-header">
 					<h2 class="card-title">Dashboard</h2>
+					<div class="card-tools">
+						<a href="{{ route('dashboard.account.add') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus mr-2"></i> Baru</a>
+					</div>
 				</div>
 				<div class="card-body">
-					<div class="row mb-3">
-						<div class="col">
-							<a href="{{ route('dashboard.account.add') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus mr-2"></i> Baru</a>
+					<div class="row">
+						<div class="col mb-3">
+							<b>Total akun: </b>{{ \App\Models\Account::count() }}
 						</div>
 					</div>
 					<div class="row">

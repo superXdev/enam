@@ -13,7 +13,7 @@ class AccountController extends Controller
 	public function index($service)
 	{
 		$service = Service::where('name', ucfirst($service))->first();
-		$accounts = auth()->user()->accounts()->where('service_id', $service->id)->get();
+		$accounts = auth()->user()->accounts()->where('service_id', $service->id)->paginate(10);
 
 		// dd($accounts);
 		return view('dashboard.account.index', compact('accounts', 'service'));

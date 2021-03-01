@@ -20,6 +20,10 @@ class ServiceSeeder extends Seeder
                 'url' => 'https://web.facebook.com/'
             ],
             [
+                'name' => 'Twitter',
+                'url' => 'https://twitter.com/'
+            ],
+            [
                 'name' => 'Google',
                 'url' => 'https://www.google.com/accounts?hl=id'
             ],
@@ -42,6 +46,18 @@ class ServiceSeeder extends Seeder
             [
                 'name' => 'Linkedin',
                 'url' => 'https://id.linkedin.com/'
+            ],
+            [
+                'name' => 'Wordpress',
+                'url' => 'https://wordpress.com/id/'
+            ],
+            [
+                'name' => 'Pinterest',
+                'url' => 'https://id.pinterest.com/'
+            ],
+            [
+                'name' => 'Reddit',
+                'url' => 'https://www.reddit.com/'
             ]
         ];
 

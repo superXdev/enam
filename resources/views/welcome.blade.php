@@ -30,7 +30,7 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-header text-center">
-      <a href="/index2.html" class="h1"><b>Enam</b></a>
+        <img src="/dist/img/logo-dark.png" style="width: 40%" class="py-2">
       <p class="text-secondary">Save your account to organized and safely</p>
     </div>
       <div class="card-body">

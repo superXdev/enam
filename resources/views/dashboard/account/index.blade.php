@@ -15,7 +15,7 @@
 		    <h3 class="card-title">Akun {{ $service->name }}</h3>
 
 		    <div class="card-tools">
-		      <a href="{{ route('dashboard.account.export', $service->id) }}" class="btn btn-success btn-sm"><i class="fas fa-download mr-2"></i> Export ke Excel</a>
+		      <a href="{{ route('dashboard.account.export', $service->id) }}" class="btn btn-success btn-sm"><i class="fas fa-download mr-2"></i> Export</a>
 		      <a href="{{ route('dashboard.account.add') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus mr-2"></i> Baru</a>
 		    </div>
 		  </div>
@@ -67,6 +67,7 @@
 		  </table>
 		</div>
 		</div>
+		{{ $accounts->links() }}
 	</div>
 </div>
 

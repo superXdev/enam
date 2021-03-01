@@ -6,9 +6,7 @@ use App\Http\Controllers\{DashboardController, AccountController};
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome')->name('welcome');
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function(){
 	Route::get('', [DashboardController::class, 'index'])->name('dashboard');
