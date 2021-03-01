@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Service, Tag, Log};
+use App\Models\{Service, Tag, Log, Account};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -11,8 +11,9 @@ class DashboardController extends Controller
     public function index()
     {
     	$results = $this->getServices();
+        $totalAccount = Account::where('user_id', auth()->id())->count();
 
-		return view('dashboard.index', compact('results'));
+		return view('dashboard.index', compact('results', 'totalAccount'));
     }
 
     public function logs(Log $log)
@@ -25,7 +26,7 @@ class DashboardController extends Controller
     {
         $tag_id = Tag::where('slug', $tag)->firstOrFail()->id;
         $service = Service::where('name', ucfirst($service))->firstOrFail();
-        $accounts = Tag::find($tag_id)->accounts()->where(['user_id' => auth()->id(), 'service_id' => $service->id])->get();
+        $accounts = Tag::find($tag_id)->accounts()->where(['user_id' => auth()->id(), 'service_id' => $service->id])->paginate(10);
 
         return view('dashboard.account.index', ['accounts' => $accounts, 'service' => $service]);
     }

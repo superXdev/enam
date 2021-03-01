@@ -3,7 +3,7 @@
 @section('content')
 <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Enam</b></a>
+      <a href="{{ route('welcome') }}" class="h1"><b>Enam</b></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Register a new member</p>
@@ -16,7 +16,7 @@
           </div>
           @enderror
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="name" placeholder="Nama lengkap">
+          <input type="text" class="form-control" name="name" placeholder="Nama lengkap" value="{{ old('name') }}">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -29,7 +29,7 @@
           </div>
           @enderror
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email">
+          <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

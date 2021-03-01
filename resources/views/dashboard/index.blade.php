@@ -15,7 +15,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col mb-3">
-							<b>Total akun: </b>{{ \App\Models\Account::count() }}
+							<b>Total akun: </b>{{ $totalAccount }}
 						</div>
 					</div>
 					<div class="row">
@@ -41,48 +41,5 @@
 	</div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Masukkan Secret Key</h5>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-        	<label for="key">Secret Key</label>
-        	<input type="text" class="form-control" name="key">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary save-btn">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-@endsection
-
-@section('script')
-
-<script>
-@if(Cache::get('secretkey') == null)
-	$('#staticBackdrop').modal('show');
-@endif
-$('.save-btn').click(function(){
-	$.ajax({
-		'url': '{{ route('dashboard.key') }}',
-		'method': 'POST',
-		'data': {
-			key: $('[name="key"]').val(),
-			_token: '{{ csrf_token() }}'
-		},
-		'success': function(response) {
-			if(response === 'ok'){
-				$('#staticBackdrop').modal('hide');
-			}
-		}
-	});
-});
-</script>
 
 @endsection

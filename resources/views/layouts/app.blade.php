@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Select2 -->
   <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+  {{-- swal --}}
+  <link rel="stylesheet" href="/plugins/sweetalert2/sweetalert2.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/dist/css/adminlte.min.css">
 </head>
@@ -102,7 +104,26 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Masukkan Secret Key</h5>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="key">Secret Key</label>
+          <input type="password" class="form-control" name="key">
+          <div class="text-secondary text-sm mt-2"><input type="checkbox" name="show"> Tampilkan </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary save-btn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- jQuery -->
 <script src="/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -111,12 +132,43 @@
 <script src="/dist/js/adminlte.min.js"></script>
 <!-- Select2 -->
 <script src="/plugins/select2/js/select2.full.min.js"></script>
+{{-- Swal --}}
+<script src="/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 <script>
   $('.logout').click(function(e){
     e.preventDefault();
     $('#logout').submit();
+  });
+</script>
+<script>
+@if(Cache::get('secretkey') == null)
+  $('#staticBackdrop').modal('show');
+@endif
+$('.save-btn').click(function(){
+  $.ajax({
+    'url': '{{ route('dashboard.key') }}',
+    'method': 'POST',
+    'data': {
+      key: $('[name="key"]').val(),
+      _token: '{{ csrf_token() }}'
+    },
+    'success': function(response) {
+      if(response === 'ok'){
+        $('#staticBackdrop').modal('hide');
+      }
+    }
+  });
+});
+
+$('[name="show"]').on('change', function(){
+    const passwordField = $('[name="key"]');
+    if($(this).is(':checked')) {
+      passwordField.attr('type', 'text');
+    } else {
+      passwordField.attr('type', 'password');
+    }
   });
 </script>
 @yield('script')

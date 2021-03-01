@@ -37,7 +37,7 @@
 		      	$data = (object)$account->showData(Cache::get('secretkey'));
 		      	@endphp
 		      	<tr data-id="{{ $account->id }}" data-username="{{ $data->username }}" data-password="{{ $data->password }}" data-note="{{ $account->note }}" data-status="{{ $account->status }}" data-created="{{ $account->created_at }}">
-		      		<td><a class="btn btn-info btn-sm w-100" href="{{ $account->service->url }}">{{ $account->service->name }}</a></td>
+		      		<td><a class="btn btn-info btn-sm w-100" target="_blank" href="{{ $account->service->url }}">{{ $account->service->name }}</a></td>
 		      		<td>{{ $data->username }}</td>
 		      		<td>
 		      			@foreach($account->tags as $tag)
@@ -53,7 +53,7 @@
 		      				<a title="Edit" href="{{ route('dashboard.account.edit', $account->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
 		      				<form class="d-inline" action="{{ route('dashboard.account.delete', $account->id) }}" method="post">
 		      					@csrf
-		      					<button title="Delete" type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+		      					<button title="Delete" type="submit" class="btn btn-danger btn-sm btn-del"><i class="fas fa-trash"></i></button>
 		      				</form>
 		      			</div>
 		      		</td>
@@ -144,6 +144,23 @@
 		$('#form-status button').text((el.data('status') == 'active') ? 'Nonaktifkan' : 'Aktifkan')
 
 		$('#modal-info').modal('show');
+	});
+
+	$('.btn-del').click(function(e){
+		e.preventDefault();
+		Swal.fire({
+		  title: 'Ingin menghapus akun?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Ya, hapus',
+		  cancelButtonText: 'Batal'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+		    $(this).parent().submit()
+		  }
+		})
 	});
 </script>
 @endsection
