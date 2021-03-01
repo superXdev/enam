@@ -3,10 +3,10 @@
 @section('content')
 <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Enma</b></a>
+      <a href="../../index2.html" class="h1"><b>Enam</b></a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Register a new membership</p>
+      <p class="login-box-msg">Register a new member</p>
 
       <form action="{{ route('register') }}" method="post">
         @csrf
@@ -79,7 +79,7 @@
         </div>
       </form>
 
-      <a href="login.html" class="text-center">I already have a membership</a>
+      <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

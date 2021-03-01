@@ -49,10 +49,11 @@
 		      		</td>
 		      		<td>
 		      			<div class="text-center">
-		      				<button class="btn btn-primary btn-sm info"><i class="fas fa-eye"></i></button>
+		      				<button title="Informasi" class="btn btn-primary btn-sm info"><i class="fas fa-eye"></i></button>
+		      				<a title="Edit" href="{{ route('dashboard.account.edit', $account->id) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
 		      				<form class="d-inline" action="{{ route('dashboard.account.delete', $account->id) }}" method="post">
 		      					@csrf
-		      					<button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+		      					<button title="Delete" type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
 		      				</form>
 		      			</div>
 		      		</td>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Enma | @yield('title')</title>
+  <title>Enam | @yield('title')</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -46,7 +46,7 @@
     <!-- Brand Logo -->
     <a href="/index3.html" class="brand-link">
       <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Enam</span>
     </a>
 
     <!-- Sidebar -->
@@ -92,7 +92,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 1.0-beta
     </div>
-    <strong>Copyright <a href="">Enma</a>.</strong> All rights reserved.
+    <strong>Copyright <a href="">Enam</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->

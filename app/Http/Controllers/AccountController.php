@@ -14,7 +14,6 @@ class AccountController extends Controller
 	{
 		$service = Service::where('name', ucfirst($service))->first();
 		$accounts = auth()->user()->accounts()->where('service_id', $service->id)->get();
-        dd($accounts);
 
 		// dd($accounts);
 		return view('dashboard.account.index', compact('accounts', 'service'));
@@ -42,9 +41,10 @@ class AccountController extends Controller
     		'status' => 'active'
     	]);
 
-    	foreach ($request->tags as $value) {
-    		$accountCreated->tags()->attach($value);
-    	}
+    	// foreach ($request->tags as $value) {
+    	// 	$accountCreated->tags()->attach($value);
+    	// }
+        $accountCreated->tags()->sync($request->tags);
 
         // logging action
         $this->logger('create', $accountCreated->service->name);

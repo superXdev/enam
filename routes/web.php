@@ -22,7 +22,7 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function(){
 	Route::post('/account/{account}/delete', [AccountController::class, 'delete'])->name('dashboard.account.delete');
 	Route::get('/account/{account}/edit', [AccountController::class, 'edit'])->name('dashboard.account.edit');
 	Route::post('/account/{account}/update', [AccountController::class, 'update'])->name('dashboard.account.update');
-	Route::post('/account/{account}/togglestatus', [AccountController::class, 'toggleStatus'])->name('dashboard.account.togglestatus');
+	Route::post('/account/{account}/togglestatus', [AccountController::class, 'toggle_status'])->name('dashboard.account.togglestatus');
 	Route::get('/account/{service_id}/export', [AccountController::class, 'export_account'])->name('dashboard.account.export');
 
 	Route::get('/account/{service}', [AccountController::class, 'index'])->name('dashboard.account');
