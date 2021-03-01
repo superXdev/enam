@@ -4,6 +4,9 @@
 
 Enam or Encrypted Password Manager is web app to organize all account from many sites. Created with Laravel 8 and AdminLTE 3.
 
+## Preview
+![ss](https://github.com/superXdev/enam/blob/master/public/dist/img/ss.png?raw=true)
+
 ## License
 
 Enam is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
