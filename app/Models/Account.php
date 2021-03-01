@@ -27,9 +27,12 @@ class Account extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    /*
+    * Custom function to decrypt and show credential data
+    */
     public function showData($key)
     {
-        $secretKey = md5($key);
+        $secretKey = md5(config('app.key').$key);
         $newEncrypter = new Encrypter($secretKey,'AES-256-CBC');
         $result =  unserialize($newEncrypter->decrypt($this->data));
 

@@ -10,29 +10,39 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AccountController extends Controller
 {
+    /*
+    * Show all accounts by service
+    */
 	public function index($service)
 	{
-		$service = Service::where('name', ucfirst($service))->first();
+		$service = Service::where('name', ucfirst($service))->firstOrFail();
 		$accounts = auth()->user()->accounts()->where('service_id', $service->id)->paginate(10);
 
-		// dd($accounts);
 		return view('dashboard.account.index', compact('accounts', 'service'));
 	}
 
+    /*
+    * Create a new account
+    */
     public function create()
     {
     	$services = Service::select('name', 'id')->get();
     	return view('dashboard.account.create', compact('services'));
     }
 
+    /*
+    * Store account to database
+    */
     public function store(Request $request)
     {
+        // validate the request
         $request->validate([
             'service_id' => 'required',
             'username' => 'required',
             'password' => 'required',
         ]);
 
+        // store to Account database
     	$accountCreated = Account::create([
     		'user_id' => auth()->id(),
     		'service_id' => $request->service_id,
@@ -41,9 +51,7 @@ class AccountController extends Controller
     		'status' => 'active'
     	]);
 
-    	// foreach ($request->tags as $value) {
-    	// 	$accountCreated->tags()->attach($value);
-    	// }
+        // syncronize tags relation
         $accountCreated->tags()->sync($request->tags);
 
         // logging action
@@ -52,20 +60,30 @@ class AccountController extends Controller
         return redirect()->back()->with(['success' => 'Akun berhasil disimpan!']);
     }
 
+    /*
+    * Edit account
+    */
     public function edit(Account $account)
     {
         $services = Service::select('name', 'id')->get();
         return view('dashboard.account.edit', compact('account','services'));
     }
 
+    /*
+    * Update account
+    */
     public function update(Account $account, Request $request)
     {
+        // make sure user is authorize to doing this action
         $this->authorize('update', $account);
+        // update to database
         $account->update([
+            // encrypt first
             'data' => $this->encrypt(Cache::get('secretkey'), ['username' => $request->username, 'password' => $request->password]),
             'note' => $request->note
         ]);
 
+        // syncronize tags relation
         $account->tags()->sync($request->tags);
 
         // logging action
@@ -74,9 +92,14 @@ class AccountController extends Controller
         return redirect()->back()->with(['updated' => 'Berhasil di perbarui']);
     }
 
+    /*
+    * Delete account
+    */
     public function delete(Account $account)
     {
+        // make sure user is authorize to doing this action
         $this->authorize('delete',$account);
+        // delete
         $account->delete();
 
         // logging action
@@ -85,10 +108,14 @@ class AccountController extends Controller
         return redirect()->back()->with(['deleted' => 'Berhasil di hapus']);
     }
 
+    /*
+    * Toggle status account
+    */
     public function toggle_status(Account $account)
     {
+        // new status to update
         $status = ($account->status == 'active') ? 'inactive' : 'active';
-
+        // update to database
         $account->update(['status' => $status]);
 
         // logging action
@@ -97,11 +124,17 @@ class AccountController extends Controller
         return redirect()->back()->with(['message' => 'Status telah diperbarui']);
     }
 
+    /*
+    * Export all account by service to excel file
+    */
     public function export_account($service_id)
     {
+        // get accounts collection
         $accounts = auth()->user()->accounts()->where('service_id', $service_id)->get();
+        // get service name
         $serviceName = $accounts[0]->service->name;
         
+        // make new array from decrypted data
         $data = array(['username', 'password', 'note', 'create date']);
         foreach($accounts as $account) {
             $credentials = (object)$account->showData(Cache::get('secretkey'));
@@ -113,11 +146,13 @@ class AccountController extends Controller
             ]);
         }
 
+        // export to excel
         $export = new AccountExport($data);
 
         // logging action
         $this->logger('export', $serviceName);
 
+        // download excel file
         return Excel::download($export, 'Akun '.$serviceName.'.xlsx');
     }
 }
