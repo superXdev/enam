@@ -38,7 +38,6 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->call('migrate:fresh');
-        $this->call('key:generate');
         $this->call('db:seed', ['--class' => 'UserSeeder']);
         $this->call('db:seed', ['--class' => 'ServiceSeeder']);
         $this->call('db:seed', ['--class' => 'TagSeeder']);
